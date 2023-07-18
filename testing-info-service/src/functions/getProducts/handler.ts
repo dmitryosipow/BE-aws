@@ -1,32 +1,53 @@
-import { formatJSONResponse } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
+import database from '../../models/database/Database';
 
-import { getProductList } from '@libs/products-service';
-
-// const products = [
-//   {
-//     "id": 1,
-//     "productName": "Camera",
-//     "price": 12,
-//   },
-//   {
-//     "id": 2,
-//     "productName": "Book",
-//     "price": 2,
-//   },
-// ]
-
-export const getProducts = async () => {
+export const getProducts = async (event: APIGatewayProxyEvent, context):Promise<APIGatewayProxyResult> => {
+  context.callbackWaitsForEmptyEventLoop = false;
   try {
-    const loadedProds = await getProductList();
-    return formatJSONResponse(loadedProds);
+    console.log("incoming request event getProducts:");
+    console.log(event);
+    const availableProducts = await database.getAllItems();
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(availableProducts)
+    }
   }
   catch (e) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ errorMessage: "Product with this id not found" })
+      body: JSON.stringify({ errorMessage: "Error when retrieving products", error: e })
     }
   }
 };
 
 export const main = middyfy(getProducts);
+
+
+/*export const handler = async (): Promise<APIGatewayProxyResultV2> => {
+  const dbClient = new DynamoDBClient({region: 'us-east-1'});
+  const command = new ScanCommand({TableName: process.env.TABLE_NAME});
+  return dbClient
+      .send(command)
+      .then((data) => {
+        return {
+          statusCode: 200,
+          body: JSON.stringify(data.Items?.map((item) => unmarshall(item))),
+        };
+      })
+      .catch((error) => {
+        return {
+          statusCode: 500,
+          body: JSON.stringify({
+            message: 'some error happened',
+            error: error.message,
+          }),
+        };
+      });
+};*/
+
+/*const [products, stocks] = await Promise.all([
+  dynamo.send(new ScanCommand({ TableName: ProductsTableName })),
+  dynamo.send(new ScanCommand({ TableName: StocksTableName })),
+]);*/

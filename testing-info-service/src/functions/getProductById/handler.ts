@@ -1,22 +1,31 @@
 import { formatJSONResponse } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
+import database from '../../models/database/Database';
 
-import { getProductList } from '@libs/products-service';
-
-export const getProductById = async (event) => {
-  const loadedProds = await getProductList();
+export const getProductById = async (event, context) => {
+  console.log('incoming request event getProductById:');
+  console.log(event);
   const id = event.pathParameters.id;
-  const prod = loadedProds.find(el => el.id === id);
-  if (!prod) {
+  context.callbackWaitsForEmptyEventLoop = false;
+
+  try {
+    const item = await database.getById(id);
+
+    if (!item) {
+      return {
+        statusCode: 404,
+        body: JSON.stringify({ errorMessage: "Product with this id not found" })
+      }
+    }
+
+    return formatJSONResponse(item);
+  }
+  catch (e) {
     return {
-      statusCode: 404,
-      body: JSON.stringify({ errorMessage: "Product with this id not found" })
+      statusCode: 500,
+      body: JSON.stringify({ errorMessage: "Error getting product", error: e })
     }
   }
-  return formatJSONResponse({
-    product: prod,
-    event,
-  });
 };
 
 export const main = middyfy(getProductById);

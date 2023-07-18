@@ -1,0 +1,40 @@
+{
+  "Stocks": [
+    {
+      "PutRequest": {
+        "Item": {
+          "product_id": {
+            "S": "3"
+          },
+          "count": {
+            "N": "6"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "product_id": {
+            "S": "4"
+          },
+          "count": {
+            "N": "4"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "product_id": {
+            "S": "5"
+          },
+          "count": {
+            "N": "8"
+          }
+        }
+      }
+    }
+  ]
+}

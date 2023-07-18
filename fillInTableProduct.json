@@ -1,0 +1,58 @@
+{
+  "Product": [
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {
+            "S": "3"
+          },
+          "title": {
+            "S": "Some title5"
+          },
+          "description": {
+            "S": "Some description5"
+          },
+          "price": {
+            "N": "10"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {
+            "S": "4"
+          },
+          "title": {
+            "S": "Some title6"
+          },
+          "description": {
+            "S": "Some description8"
+          },
+          "price": {
+            "N": "7"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "id": {
+            "S": "5"
+          },
+          "title": {
+            "S": "Some title555"
+          },
+          "description": {
+            "S": "Some descriptionkkk"
+          },
+          "price": {
+            "N": "37"
+          }
+        }
+      }
+    }
+  ]
+}

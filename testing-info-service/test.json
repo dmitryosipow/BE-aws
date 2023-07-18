@@ -1,6 +1,11 @@
 {
   "headers":{},
   "pathParameters": {
-    "id": "7567ec4b-b10c-48c5-9345-fc73c48a80a13"
+    "id": "0993206b-2168-11ee-b959-06e336b2f9b3"
+  },
+  "body": {
+    "title": "Regular prod",
+    "description": "Regular description",
+    "price": 50
   }
 }
