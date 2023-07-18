@@ -7,7 +7,7 @@ export default {
       httpApi: {
         method: 'post',
         path: '/products',
-        description: 'Create product according to post',
+        description: 'Create product according to post request',
       },
     },
   ],

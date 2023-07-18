@@ -3,7 +3,7 @@ import type { AWS } from '@serverless/typescript';
 import { getProducts, getProductById, createProduct } from './src/functions/';
 
 const serverlessConfiguration: AWS = {
-  service: 'testing-info-service',
+  service: 'product-managing-service',
   frameworkVersion: '3',
   plugins: ['serverless-auto-swagger', 'serverless-esbuild'],
   provider: {
