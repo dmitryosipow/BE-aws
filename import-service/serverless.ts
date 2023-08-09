@@ -17,7 +17,8 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
-      BUCKET: 'import-files-csv'
+      BUCKET: 'import-files-csv',
+      CATALOG_ITEMS_QUEUE_URL: '${ssm:catalogItemsQueueUrl}'
     },
     iam: {
       role: {
@@ -27,7 +28,15 @@ const serverlessConfiguration: AWS = {
             "s3:*",
           ],
           Resource: ["arn:aws:s3:::import-files-csv, arn:aws:s3:::import-files-csv/*"],
+        },
+        {
+          Effect: "Allow",
+          Action: [
+            "sqs:*",
+          ],
+          Resource: ['${ssm:catalogItemsQueueArn}'],
         }],
+
       },
     },
   },

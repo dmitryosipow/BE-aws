@@ -2,7 +2,7 @@ import { middyfy } from '@libs/lambda';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import database from '../../models/database/Database';
 
-export const getProducts = async (event: APIGatewayProxyEvent, context):Promise<APIGatewayProxyResult> => {
+export const getProducts = async (event: APIGatewayProxyEvent, context): Promise<APIGatewayProxyResult> => {
   context.callbackWaitsForEmptyEventLoop = false;
   try {
     console.log("incoming request event getProducts:");
@@ -13,8 +13,7 @@ export const getProducts = async (event: APIGatewayProxyEvent, context):Promise<
       statusCode: 200,
       body: JSON.stringify(availableProducts)
     }
-  }
-  catch (e) {
+  } catch (e) {
     return {
       statusCode: 500,
       body: JSON.stringify({ errorMessage: "Error when retrieving products", error: e })

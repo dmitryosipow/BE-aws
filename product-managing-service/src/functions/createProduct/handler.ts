@@ -1,11 +1,10 @@
 import { middyfy } from '@libs/lambda';
 import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
-import { v4 } from "uuid";
-import Ajv from "ajv";
-import { Product } from '../../models';
+import Ajv from 'ajv';
 
 import schema from './schema';
 import database from '../../models/database/Database';
+import { createProductObject } from '../../utils/createProduct';
 
 const ajv = new Ajv();
 const validate = ajv.compile(schema);
@@ -15,31 +14,26 @@ export const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = 
   try {
     console.log("incoming request event createProduct:");
     console.log(event);
-    const { title, description = '', price } = event.body;
-    const product:Product = {
-      id: v4(),
-      title,
-      description,
-      price
-    }
 
-    const valid = validate(product);
+    const validatedProdObject = createProductObject(event.body);
 
-    if(!valid) {
+    if (validatedProdObject.error) {
       return {
         statusCode: 400,
-        body: JSON.stringify({errorMessage: "Error creating product, incorrect input parameters", error: validate.errors})
+        body: JSON.stringify({
+          errorMessage: "Error creating product, incorrect input parameters",
+          error: validate.errors
+        })
       }
     }
 
-    const created = await database.create(product);
+    const created = await database.create(validatedProdObject.product);
 
     return {
       statusCode: 200,
       body: JSON.stringify(created)
     }
-  }
-  catch (e) {
+  } catch (e) {
     return {
       statusCode: 500,
       body: JSON.stringify({ errorMessage: "Error creating product", error: e })

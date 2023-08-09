@@ -1,10 +1,12 @@
-import { S3 } from "aws-sdk";
+import { S3, SQS } from "aws-sdk";
 import { S3Event } from 'aws-lambda';
 import csvParser from 'csv-parser';
 // import stream from 'stream';
 
 const importFileParser = async (event: S3Event) => {
     const key = event.Records[0].s3.object.key;
+
+    console.log("process ssm parameter: " + `${process.env.CATALOG_ITEMS_QUEUE_URL}`);
 
     const s3 = new S3();
 
@@ -21,13 +23,22 @@ const importFileParser = async (event: S3Event) => {
     //     Body: writeStream, // Body is stream which enables streaming
     // }).promise();
     let results = [];
+    const allPromises = [];
+    const sqs = new SQS();
 
     await new Promise<void>((resolve, reject) => {
-        s3Stream.pipe(csvParser({ headers: false }))
+        s3Stream.pipe(csvParser())
             .on('data', (data) => {
                 results.push(data);
                 console.log('Parser');
                 console.log(data);
+                if (data.price) {
+                    data.price = parseInt(data.price);
+                }
+                allPromises.push(sqs.sendMessage( {
+                    QueueUrl: `${process.env.CATALOG_ITEMS_QUEUE_URL}`,
+                    MessageBody: JSON.stringify(data)
+                }).promise());
                 // const writeData = JSON.stringify({ ...data, test: 'meow' })
                 // writeStream.write(writeData);
             })
@@ -44,6 +55,13 @@ const importFileParser = async (event: S3Event) => {
             });
     });
     //await uploadToS3;
+    try {
+        await Promise.allSettled(allPromises);
+    } catch (e) {
+        console.log('error sending to sqs');
+        console.log(e);
+    }
+    console.log('all sqs are sent');
 
     // just move file without changing
     await s3.copyObject({
