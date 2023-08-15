@@ -6,6 +6,7 @@ const serverlessConfiguration: AWS = {
   service: 'product-managing-service',
   frameworkVersion: '3',
   plugins: ['serverless-auto-swagger', 'serverless-esbuild'],
+  useDotenv: true,
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
@@ -26,6 +27,11 @@ const serverlessConfiguration: AWS = {
         Ref: "SNSTopic"
       },
       database: 'SQL',
+      db_host     : '${env:db_host}',
+      db_user     : '${env:db_user}',
+      db_password : '${env:db_password}',
+      db_port     : '${env:db_port}',
+      db_database : '${env:db_database}',
       catalogueItemsQueueUrl: { Ref: 'catalogueItemsQueue' }
     }/*,
     vpc: {
@@ -34,7 +40,7 @@ const serverlessConfiguration: AWS = {
     }*/,
     httpApi: {
       cors: {
-        allowedOrigins: ['http://localhost:3000', 'https://d25hlwf9ze1p5g.cloudfront.net']
+        allowedOrigins: ['http://localhost:3000', 'https://d1k0a3yefk9g4c.cloudfront.net']
       },
     },
     iam: {

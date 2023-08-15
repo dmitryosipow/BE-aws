@@ -14,7 +14,14 @@ export default {
             }
           }
         },
-        cors: true
+        cors: true,
+        authorizer: {
+          arn: '${ssm:basicAuthorizer}',
+          //name: "basicAuthorizer",
+          resultTtlInSeconds: 0,
+          //identitySource: "method.request.header.Authorization",
+          type: 'token',
+        },
       },
     },
   ],
