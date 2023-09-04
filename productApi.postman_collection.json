@@ -1,0 +1,62 @@
+{
+	"info": {
+		"_postman_id": "45eebfef-e555-4d38-b2c5-1eaf187df07f",
+		"name": "productApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://yw459sxtei.execute-api.eu-west-1.amazonaws.com/products",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"price\": 5,\r\n    \"title\": \"Check now\",\r\n    \"description\": \"My\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://yw459sxtei.execute-api.eu-west-1.amazonaws.com/products",
+					"protocol": "https",
+					"host": [
+						"yw459sxtei",
+						"execute-api",
+						"eu-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://yw459sxtei.execute-api.eu-west-1.amazonaws.com/products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://yw459sxtei.execute-api.eu-west-1.amazonaws.com/products",
+					"protocol": "https",
+					"host": [
+						"yw459sxtei",
+						"execute-api",
+						"eu-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
