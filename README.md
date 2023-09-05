@@ -28,6 +28,7 @@
 
 ## Task 5
 - Link to new import-service realization commit  https://github.com/dmitryosipow/BE-aws/commit/488c75f9cf27a29a86d410f6b0f411b3edc11482
+- Auth token may be needed from task 7 (localStorage authorization_token :  ZG1pdHJ5b3NpcG93OlRFU1RfUEFTU1dPUkQ=)
 - Go to https://d1k0a3yefk9g4c.cloudfront.net/ -> Manage products -> Choose and Upload table.csv file from root folder, return to main page and refresh -> items from csv are created
 - All additional points are created (async/await is used in lambda functions, unit tests for importProductsFile lambda, At the end of the stream the lambda function should move the file from the uploaded folder into the parsed folder)
 
